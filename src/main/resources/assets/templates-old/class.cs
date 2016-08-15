@@ -1,179 +1,146 @@
-<?cs include:"partials/sidebar-page-top.cs" ?>
+<?cs include:"doctype.cs" ?>
 <?cs include:"macros.cs" ?>
+<html>
+<?cs include:"head_tag.cs" ?>
+<body class="<?cs var:class.since.key ?>">
+<?cs include:"header.cs" ?>
 
+<div class="g-unit" id="doc-content">
 
-<div class="w3-container w3-theme-l4">
+<div id="api-info-block">
 
-    <h1>
-        <span class="w3-small">
-            <?cs var:class.scope ?>
-            <?cs var:class.static ?>
-            <?cs var:class.final ?>
-            <?cs var:class.abstract ?>
-            <?cs var:class.kind ?>
-            <b>
-                <?cs call:class_name(class.qualifiedType) ?>
-                <?cs call:type_link(supr.class) ?>
-            </b>
-        </span>
-        <br/>
-        <?cs var:class.name ?>
-    </h1>
+<?cs # are there inherited members ?>
+<?cs each:cl=class.inherited ?>
+  <?cs if:subcount(cl.methods) ?>
+   <?cs set:inhmethods = #1 ?>
+  <?cs /if ?>
+  <?cs if:subcount(cl.constants) ?>
+   <?cs set:inhconstants = #1 ?>
+  <?cs /if ?>
+  <?cs if:subcount(cl.fields) ?>
+   <?cs set:inhfields = #1 ?>
+  <?cs /if ?>
+  <?cs if:subcount(cl.attrs) ?>
+   <?cs set:inhattrs = #1 ?>
+  <?cs /if ?>
+<?cs /each ?>
 
-    <div id="api-info-block">
-
-        <?cs # are there inherited members ?>
-        <?cs each:cl=class.inherited ?>
-        <?cs if:subcount(cl.methods) ?>
-        <?cs set:inhmethods = #1 ?>
-        <?cs /if ?>
-        <?cs if:subcount(cl.constants) ?>
-        <?cs set:inhconstants = #1 ?>
-        <?cs /if ?>
-        <?cs if:subcount(cl.fields) ?>
-        <?cs set:inhfields = #1 ?>
-        <?cs /if ?>
-        <?cs if:subcount(cl.attrs) ?>
-        <?cs set:inhattrs = #1 ?>
-        <?cs /if ?>
-        <?cs /each ?>
-
-
-        <div class="api-level">
-            <?cs call:since_tags(class) ?>
-            <?cs call:federated_refs(class) ?>
-        </div>
-    </div><!-- end api-info-block -->
-
-
-
-
+<div class="sum-details-links">
+<?cs if:doclava.generate.sources ?>
+<div>
+<a href="<?cs var:class.name ?>-source.html">View Source</a>
 </div>
-
-
-<div class="w2-container w3-theme-light w3-padding">
-    <?cs if:doclava.generate.sources ?>
-    <div>
-        <a href="<?cs var:class.name ?>-source.html">View Source</a>
-    </div>
-    <?cs /if ?>
-
-    <?cs if:inhattrs || inhconstants || inhfields || inhmethods || (!class.subclasses.hidden &&
+<?cs /if ?>
+<?cs if:inhattrs || inhconstants || inhfields || inhmethods || (!class.subclasses.hidden &&
      (subcount(class.subclasses.direct) || subcount(class.subclasses.indirect))) ?>
-    Jump to:
-    <?cs if:subcount(class.inners) ?>
-    <a href="#nestedclasses">Nested Classes</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.attrs) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#lattrs">XML Attrs</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:inhattrs ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhattrs">Inherited XML Attrs</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.enumConstants) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#enumconstants">Enums</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.constants) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#constants">Constants</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:inhconstants ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhconstants">Inherited Constants</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.fields) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#lfields">Fields</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:inhfields ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhfields">Inherited Fields</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.ctors.public) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#pubctors">Ctors</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.ctors.protected) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#proctors">Protected Ctors</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.methods.public) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#pubmethods">Methods</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:subcount(class.methods.protected) ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#promethods">Protected Methods</a>
-    <?cs set:linkcount = #1 ?>
-    <?cs /if ?>
-    <?cs if:inhmethods ?>
-    <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhmethods">Inherited Methods</a>
-    <?cs /if ?>
-    <?cs /if ?>
+Summary:
+<?cs if:subcount(class.inners) ?>
+  <a href="#nestedclasses">Nested Classes</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.attrs) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#lattrs">XML Attrs</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:inhattrs ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhattrs">Inherited XML Attrs</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.enumConstants) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#enumconstants">Enums</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.constants) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#constants">Constants</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:inhconstants ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhconstants">Inherited Constants</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.fields) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#lfields">Fields</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:inhfields ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhfields">Inherited Fields</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.ctors.public) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#pubctors">Ctors</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.ctors.protected) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#proctors">Protected Ctors</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.methods.public) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#pubmethods">Methods</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:subcount(class.methods.protected) ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#promethods">Protected Methods</a>
+  <?cs set:linkcount = #1 ?>
+<?cs /if ?>
+<?cs if:inhmethods ?>
+  <?cs if:linkcount ?>&#124; <?cs /if ?><a href="#inhmethods">Inherited Methods</a>
+<?cs /if ?>
+&#124; <a href="#" onclick="return toggleAllClassInherited()" id="toggleAllClassInherited">[Expand All]</a>
+<?cs /if ?>
 </div><!-- end sum-details-links -->
+<div class="api-level">
+  <?cs call:since_tags(class) ?>
+  <?cs call:federated_refs(class) ?>
+</div>
+</div><!-- end api-info-block -->
 
-<div class="w3-container">
+<?cs # this next line must be exactly like this to be parsed by eclipse ?>
+<!-- ======== START OF CLASS DATA ======== -->
 
-    <div class="w3-container w3-section w3-pale-green w3-leftbar w3-border-green w3-padding-16">
+<div id="jd-header">
+    <?cs var:class.scope ?>
+    <?cs var:class.static ?> 
+    <?cs var:class.final ?> 
+    <?cs var:class.abstract ?>
+    <?cs var:class.kind ?>
+<h1><?cs var:class.name ?></h1>
 
-        <?cs set:colspan = subcount(class.inheritance) ?>
-        <?cs each:supr = class.inheritance ?>
+<?cs set:colspan = subcount(class.inheritance) ?>
+<?cs each:supr = class.inheritance ?>
+  <?cs if:colspan == 2 ?>
+    extends <?cs call:type_link(supr.short_class) ?><br/>
+  <?cs /if ?>
+  <?cs if:last(supr) && subcount(supr.interfaces) ?>
+      implements 
+      <?cs each:t=supr.interfaces ?>
+        <?cs call:type_link(t) ?> 
+      <?cs /each ?>
+  <?cs /if ?>
+  <?cs set:colspan = colspan-1 ?>
+<?cs /each ?>
 
-            <?cs if:colspan == 2 ?>
-                extends <?cs call:type_link(supr.short_class) ?><br/>
-            <?cs /if ?>
-
-            <?cs if:last(supr) && subcount(supr.interfaces) ?>
-                implements
-                <?cs each:t=supr.interfaces ?>
-                <?cs call:type_link(t) ?>
-                <?cs /each ?>
-            <?cs /if ?>
-
-            <?cs set:colspan = colspan-1 ?>
-        <?cs /each ?>
-
-        <table class="jd-inheritance-table">
-            <?cs set:colspan = subcount(class.inheritance) ?>
-            <?cs each:supr = class.inheritance ?>
-            <tr>
-                <?cs loop:i = 1, (subcount(class.inheritance)-colspan), 1 ?>
-                <td class="jd-inheritance-space">&nbsp;<?cs if:(subcount(class.inheritance)-colspan) == i ?>&nbsp;&nbsp;&#x21b3;<?cs /if ?></td>
-                <?cs /loop ?>
-                <td colspan="<?cs var:colspan ?>" class="jd-inheritance-class-cell">
-                    <?cs if:colspan == 1 ?>
-                        <?cs call:class_name(class.qualifiedType) ?>
-                    <?cs else ?>
-                        <?cs call:type_link(supr.class) ?>
-                    <?cs /if ?>
-                </td>
-            </tr>
-            <?cs set:colspan = colspan-1 ?>
-            <?cs /each ?>
-        </table>
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div><!-- end header -->
 
 <div id="naMessage"></div>
 
 <div id="jd-content" class="api apilevel-<?cs var:class.since.key ?>">
-
+<table class="jd-inheritance-table">
+<?cs set:colspan = subcount(class.inheritance) ?>
+<?cs each:supr = class.inheritance ?>
+    <tr>
+        <?cs loop:i = 1, (subcount(class.inheritance)-colspan), 1 ?>
+            <td class="jd-inheritance-space">&nbsp;<?cs if:(subcount(class.inheritance)-colspan) == i ?>&nbsp;&nbsp;&#x21b3;<?cs /if ?></td>
+        <?cs /loop ?> 	
+        <td colspan="<?cs var:colspan ?>" class="jd-inheritance-class-cell"><?cs
+            if:colspan == 1
+                ?><?cs call:class_name(class.qualifiedType) ?><?cs 
+            else 
+                ?><?cs call:type_link(supr.class) ?><?cs
+            /if ?></td>
+    </tr>
+    <?cs set:colspan = colspan-1 ?>
+<?cs /each ?>
+</table>
 
 <?cs # this next line must be exactly like this to be parsed by eclipse ?>
 
@@ -282,8 +249,8 @@
     <tr class="<?cs if:count % #2 ?>alt-color<?cs /if ?> api apilevel-<?cs var:cl.since.key ?>" >
       <td class="jd-typecol">
         <?cs var:cl.scope ?>
-        <?cs var:cl.static ?>
-        <?cs var:cl.final ?>
+        <?cs var:cl.static ?> 
+        <?cs var:cl.final ?> 
         <?cs var:cl.abstract ?>
         <?cs var:cl.kind ?></td>
       <td class="jd-linkcol"><?cs call:type_link(cl.type) ?></td>
@@ -520,12 +487,12 @@ From <?cs var:cl.kind ?>
 <?cs # the A tag in the next line must remain where it is, so that Eclipse can parse the docs ?>
 <a id="<?cs var:field.anchor ?>"></a>
 <?cs # The apilevel-N class MUST BE LAST in the sequence of class names ?>
-<div class="jd-details api apilevel-<?cs var:field.since.key ?>">
+<div class="jd-details api apilevel-<?cs var:field.since.key ?>"> 
     <h4 class="jd-details-title">
       <span class="normal">
-        <?cs var:field.scope ?>
-        <?cs var:field.static ?>
-        <?cs var:field.final ?>
+        <?cs var:field.scope ?> 
+        <?cs var:field.static ?> 
+        <?cs var:field.final ?> 
         <?cs call:type_link(field.type) ?>
       </span>
         <?cs var:field.name ?>
@@ -559,14 +526,14 @@ From <?cs var:cl.kind ?>
 <?cs # the A tag in the next line must remain where it is, so that Eclipse can parse the docs ?>
 <a id="<?cs var:method.anchor ?>"></a>
 <?cs # The apilevel-N class MUST BE LAST in the sequence of class names ?>
-<div class="jd-details api apilevel-<?cs var:method.since.key ?>">
+<div class="jd-details api apilevel-<?cs var:method.since.key ?>"> 
     <h4 class="jd-details-title">
       <span class="normal">
-        <?cs var:method.scope ?>
-        <?cs var:method.static ?>
-        <?cs var:method.final ?>
-        <?cs var:method.abstract ?>
-        <?cs var:method.synchronized ?>
+        <?cs var:method.scope ?> 
+        <?cs var:method.static ?> 
+        <?cs var:method.final ?> 
+        <?cs var:method.abstract ?> 
+        <?cs var:method.synchronized ?> 
         <?cs call:type_link(method.returnType) ?>
       </span>
       <span class="sympad"><?cs var:method.name ?></span>
@@ -588,7 +555,7 @@ From <?cs var:cl.kind ?>
 <?cs # the A tag in the next line must remain where it is, so that Eclipse can parse the docs ?>
 <a id="<?cs var:attr.anchor ?>"></a>
 <?cs # The apilevel-N class MUST BE LAST in the sequence of class names ?>
-<div class="jd-details api apilevel-<?cs var:attr.since.key ?>">
+<div class="jd-details api apilevel-<?cs var:attr.since.key ?>"> 
     <h4 class="jd-details-title"><?cs var:attr.name ?>
     </h4>
       <div class="api-level">
@@ -683,7 +650,7 @@ From <?cs var:cl.kind ?>
 
 </div><!-- end doc-content -->
 
+<?cs include:"trailer.cs" ?>
 
-
-</div>
-<?cs include:"partials/sidebar-page-bottom.cs" ?>
+</body>
+</html>

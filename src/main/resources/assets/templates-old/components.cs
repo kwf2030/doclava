@@ -5,5 +5,6 @@
 <?cs include:"components/api_filter.cs" ?>
 
 <?cs include:"components/masthead.cs" ?>
+<?cs include:"components/left_nav.cs" ?>
 
 <?cs include:"customizations.cs" ?>

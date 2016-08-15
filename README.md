@@ -1,27 +1,20 @@
 Doclava
 =======
 
-Doclava is a new javadoc doclet which is written by Google and used for Android Developer Docs. Clear and efficient(support search).
+> This is a beta state code, so any kind of feedback and contribution is welcome!
 
-This project is forked from https://code.google.com/p/doclava/, and with a few style modification.
+[Doclava](https://code.google.com/p/doclava/) is a new javadoc doclet 
+which is originally written by Google and used for  Android Developer
+Docs. Clear and efficient.
 
-## How to build
-The [official site](https://code.google.com/p/doclava/) has binary downloads offered(or you can download it from [here](https://github.com/wf2030/doclava/releases)).
-
-We use [Gradle](http://www.gradle.org/) to build this project.
-
-    gradle build
-
-This will build a jar in build/libs which is the artifact.
-
-Once you have the artifact, run `javadoc` command with the `-doclet` and `-docletpath`(if not in classpath) options to generate javadocs, for example:
+This project is forked from https://github.com/kwf2030/doclava and 
+therefore indirectly from https://code.google.com/p/doclava/.
+ 
+To get an overview of what it this project going to be, take a look at
+[the roadmap](ROADMAP.md).
 
 
-    javadoc -encoding UTF-8 -sourcepath src -d docs -subpackages project.package -doclet com.google.doclava.Doclava -docletpath doclava.jar -generatesources -project.name MyProject
+## Sample output
 
-
-More details please refer to [official site](https://code.google.com/p/doclava/).
-
-Here is a screenshot
-
-![Doclava](assets/screenshot.png)
+For some screenshots, instructions and a sample doc generate by the 
+recent state of the code refer [to here](http://naghavi.me/doclava/).
